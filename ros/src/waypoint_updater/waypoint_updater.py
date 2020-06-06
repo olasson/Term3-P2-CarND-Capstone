@@ -22,7 +22,9 @@ as well as to verify your TL classifier.
 TODO (for Yousuf and Aaron): Stopline location for each traffic light.
 '''
 
-LOOKAHEAD_WPS = 200 # Number of waypoints we will publish. You can change this number
+
+# Constants
+LOOKAHEAD_WPS = 200 # Number of waypoints we will publish. You can change this number Original value: 200
 
 
 class WaypointUpdater(object):
@@ -40,10 +42,15 @@ class WaypointUpdater(object):
         # TODO: Add other member variables you need below
         self.base_waypoints = None
         self.waypoints_2D = None
+        self.waypoints_tree = None
+        self.pose = None
+        
+        
         rospy.spin()
 
     def pose_cb(self, msg):
-        # TODO: Implement
+        # Store the car's pose
+        self.pose = msg
         pass
    
     def waypoints_cb(self, waypoints):
