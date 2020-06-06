@@ -25,7 +25,7 @@ TODO (for Yousuf and Aaron): Stopline location for each traffic light.
 
 # Constants
 LOOKAHEAD_WPS = 200 # Number of waypoints we will publish. You can change this number Original value: 200
-ROSPY_RATE = 50
+ROSPY_RATE = 50 #Rate for loop()
 
 class WaypointUpdater(object):
     def __init__(self):
@@ -52,10 +52,15 @@ class WaypointUpdater(object):
     
     
     def loop(self):
+        """
+        As described in Lesson 6: Project Programming a Real Self-Driving Car
+        """
         rate = rospy.Rate(ROSPY_RATE)
         while not rospy.is_shutdown():
             if self.pose and self.base_waypoints:
-                pass
+                closest_waypoint_idx = self.get_closest_waypoint_idx()
+        rate.sleep()
+                
         
     
     def get_closest_waypoint_idx(self):
