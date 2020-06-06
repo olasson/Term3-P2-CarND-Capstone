@@ -91,7 +91,9 @@ class WaypointUpdater(object):
         return closest_waypoint_idx
         
     def pose_cb(self, msg):
-        # Store the car's pose
+        """
+        Store the car's pose
+        """
         self.pose = msg
         pass
    
