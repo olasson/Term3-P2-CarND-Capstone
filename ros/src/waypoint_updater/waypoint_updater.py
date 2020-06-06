@@ -25,7 +25,7 @@ TODO (for Yousuf and Aaron): Stopline location for each traffic light.
 
 # Constants
 LOOKAHEAD_WPS = 200 # Number of waypoints we will publish. You can change this number Original value: 200
-
+ROSPY_RATE = 50
 
 class WaypointUpdater(object):
     def __init__(self):
@@ -35,7 +35,8 @@ class WaypointUpdater(object):
         rospy.Subscriber('/base_waypoints', Lane, self.waypoints_cb)
 
         # TODO: Add a subscriber for /traffic_waypoint and /obstacle_waypoint below
-
+        rospy.Subscriber('/traffic_waypoint', Int32, self.traffic_cb)
+       
 
         self.final_waypoints_pub = rospy.Publisher('final_waypoints', Lane, queue_size=1)
 
@@ -43,11 +44,46 @@ class WaypointUpdater(object):
         self.base_waypoints = None
         self.waypoints_2D = None
         self.waypoints_tree = None
+        
         self.pose = None
         
         
-        rospy.spin()
-
+        #rospy.spin()
+    
+    
+    def loop(self):
+        rate = rospy.Rate(ROSPY_RATE)
+        while not rospy.is_shutdown():
+            if self.pose and self.base_waypoints:
+                pass
+        
+    
+    def get_closest_waypoint_idx(self):
+        """
+        As described in Lesson 6: Project Programming a Real Self-Driving Car
+        """
+        
+        x = self.pose.pose.position.x
+        y = self.pose.pose.position.y
+        closest_waypoint_idx = self.waypoint_tree.query([x, y], 1)[1]
+        
+        # Extract coordinates ahead and behind car
+        ahead_coord = self.waypoints_2D[closest_waypoint_idx]
+        behind_coord = self.waypoints_2D[closest_waypoint_idx - 1]
+        
+        ahead_vect = np.array(ahead_coord)
+        behind_vect = np.array(behind_coord)
+        pos_vect = np.array([x, y])
+        
+        # The dot product checks if the closest waypoint is ahead or behind the car
+        check_val = np.dot(ahead_vect - prev_vect, pos_vect - ahead_vect)
+        
+        # If the waypoint is behind us, take the closest index + 1, 
+        # but modulo to avoid issues if the car is finishing a lap
+        if check_val > 0:
+            closest_waypoint_idx = (closest_waypoint_idx + 1) % len(self.waypoints_2D)
+        return closest_waypoint_idx
+        
     def pose_cb(self, msg):
         # Store the car's pose
         self.pose = msg
