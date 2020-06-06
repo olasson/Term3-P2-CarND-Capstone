@@ -47,13 +47,11 @@ class WaypointUpdater(object):
         pass
    
     def waypoints_cb(self, waypoints):
-        # TODO: Implement
         self.base_waypoints = waypoints
         if not self.waypoints_2D:
             # Extract 2D waypoints for use in KDTree (as described in Lesson 6: Project Programming a Real Self-Driving Car)
             self.waypoints_2D = [[waypoint.pose.pose.position.x , waypoint.pose.pose.position.y] for waypoint in waypoints.waypoints]
             self.waypoint_tree = KDTree(self.waypoints_2D)
-        pass
 
     def traffic_cb(self, msg):
         # TODO: Callback for /traffic_waypoint message. Implement
