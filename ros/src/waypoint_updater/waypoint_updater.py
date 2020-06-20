@@ -7,6 +7,7 @@ from scipy.spatial import KDTree
 from std_msgs.msg import Int32
 
 import math
+import numpy as np
 
 '''
 This node will publish waypoints from the car's current position to some `x` distance ahead.
@@ -67,7 +68,7 @@ class WaypointUpdater(object):
             if self.pose and self.waypoint_tree:
                 closest_waypoint_idx = self.get_closest_waypoint_idx()
                 self.publish_waypoints(closest_waypoint_idx)
-        rate.sleep()
+            rate.sleep()
                 
         
     
@@ -89,7 +90,7 @@ class WaypointUpdater(object):
         pos_vect = np.array([x, y])
         
         # The dot product checks if the closest waypoint is ahead or behind the car
-        check_val = np.dot(ahead_vect - prev_vect, pos_vect - ahead_vect)
+        check_val = np.dot(ahead_vect - behind_vect, pos_vect - ahead_vect)
         
         # If the waypoint is behind us, take the closest index + 1, 
         # but modulo to avoid issues if the car is finishing a lap
@@ -98,13 +99,13 @@ class WaypointUpdater(object):
         return closest_waypoint_idx
     
     def publish_waypoints(self, closest_wp_idx):
-        self.final_waypoints_pub(self.generate_lane(closest_wp_idx))
+        self.final_waypoints_pub.publish(self.generate_lane(closest_wp_idx))
     
     def generate_lane(self, closest_wp_idx):
         lane = Lane()
         #closest_wp_idx = self.get_closest_waypoint_idx()
         farthest_wp_idx = closest_wp_idx + LOOKAHEAD_WPS
-        base_waypoints = self.base_lane.waypoints[closest_wp_idx : farthest_wp_idx]
+        base_waypoints = self.base_waypoints.waypoints[closest_wp_idx : farthest_wp_idx]
         
         if self.stopline_wp_idx == -1 or (self.stopline_wp_idx >= farthest_wp_idx):
             lane.waypoints = base_waypoints
