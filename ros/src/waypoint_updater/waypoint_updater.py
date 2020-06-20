@@ -48,6 +48,10 @@ class WaypointUpdater(object):
         
         self.pose = None
         
+        self.stopline_wp_idx = -1
+        self.stop_wp_idx = -1
+        
+        
         
         #rospy.spin()
     
@@ -89,13 +93,21 @@ class WaypointUpdater(object):
         if check_val > 0:
             closest_waypoint_idx = (closest_waypoint_idx + 1) % len(self.waypoints_2D)
         return closest_waypoint_idx
+    
+    def publish_waypoints(self):
+        pass
+    
+    def generate_lane(self):
+        pass
+    
+    def decelerate_waypoints(self):
+        pass
         
     def pose_cb(self, msg):
         """
         Store the car's pose
         """
         self.pose = msg
-        pass
    
     def waypoints_cb(self, waypoints):
         self.base_waypoints = waypoints
