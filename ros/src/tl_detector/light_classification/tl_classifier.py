@@ -19,7 +19,8 @@ class TLClassifier(object):
         config_string = rospy.get_param("/traffic_light_config")
         self.config = yaml.load(config_string)
         
-        model_path = os.path.dirname(os.path.realpath(__file__) + self.config['model'])
+        #model_path = os.path.dirname(os.path.realpath(__file__) + self.config['model'])
+        model_path = '/home/workspace/CarND-Capstone/ros/src/tl_detector/light_classification/frozen_inference_graph.pb'
         self.load_model(model_path)
         
     def load_model(self, model_path):
@@ -29,13 +30,13 @@ class TLClassifier(object):
         model_config = tf.ConfigProto()
         
         # This is technically not needed, but good practice: https://stackoverflow.com/questions/39614938/why-do-we-need-tensorflow-tf-graph
-        self.tl_model() = tf.Graph()
+        self.tl_model = tf.Graph()
         
         # Very useful for this section: https://leimao.github.io/blog/Save-Load-Inference-From-TF-Frozen-Graph/
         with tf.Session(graph = self.tl_model, config = model_config) as sess:
             self.session = sess
             tl_graph = tf.GraphDef()
-            with tf.gfile.Gfile(model_path, 'rb') as f:
+            with tf.gfile.GFile(model_path, 'rb') as f:
                 tl_graph.ParseFromString(f.read())
                 tf.import_graph_def(tl_graph, name = '')        
 
@@ -79,7 +80,7 @@ class TLClassifier(object):
                 traffic_light_class = self.categories[classes[i]]
                 return traffic_light_class
             else:
-                rospy.loginfo("Traffic light UNKNOWN!)
+                rospy.loginfo("Traffic light UNKNOWN!")
                 return TrafficLight.UNKNOWN
     
 
