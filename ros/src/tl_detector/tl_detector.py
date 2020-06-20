@@ -142,28 +142,29 @@ class TLDetector(object):
 
         """
         light = None
-        light_wp = None
+        light_wp_idx = None
 
         # List of positions that correspond to the line to stop in front of for a given intersection
         stop_line_positions = self.config['stop_line_positions']
         if(self.pose):
             car_position_idx = self.get_closest_waypoint(self.pose.pose.position.x, self.pose.pose.position.y)
 
-        #TODO find the closest visible traffic light (if one exists)
+            #TODO find the closest visible traffic light (if one exists)
         
-        # Iterate through the traffs lights to find the closest one
+            # Iterate through the traffs lights to find the closest one
         
-        len_wp = len(self.waypoints.waypoints)
-        for i, l in enumerate(self.lights):
-            tmp_car_idx = self.get_closest_waypoint(stop_line_positions[i][0], stop_line_positions[i][1])
-            diff_car_position_idx = car_position_idx - tmp_car_idx
-            if diff_car_position_idx >=0 and diff_car_position_idx < len_wp:
-                len_wp = diff_car_position_idx
-                light = l
-                light_wp = tmp_car_idx
+            len_wp = len(self.waypoints.waypoints)
+            for i, l in enumerate(self.lights):
+                line = stop_line_positions[i]
+                tmp_car_idx = self.get_closest_waypoint(line[0], line[1])
+                diff_car_position_idx = car_position_idx - tmp_car_idx
+                if diff_car_position_idx >=0 and diff_car_position_idx < len_wp:
+                    len_wp = diff_car_position_idx
+                    light = l
+                    light_wp_idx = tmp_car_idx
         if light:
             state = self.get_light_state(light)
-            return light_wp, state
+            return light_wp_idx, state
         #self.waypoints = None
         return -1, TrafficLight.UNKNOWN
 

@@ -1,7 +1,10 @@
 from styx_msgs.msg import TrafficLight
 
 #olasson imports
-import rospy, cv2, os, yaml
+import rospy
+import cv2
+import os
+import yaml
 import tensorflow as tf
 import numpy as np
 
@@ -28,6 +31,7 @@ class TLClassifier(object):
         Loads the chosen model, depending on whether it is the site (real) or styx (simulation)
         """
         model_config = tf.ConfigProto()
+        model_config.graph_options.optimizer_options.global_jit_level = tf.OptimizerOptions.ON_1
         
         # This is technically not needed, but good practice: https://stackoverflow.com/questions/39614938/why-do-we-need-tensorflow-tf-graph
         self.tl_model = tf.Graph()
@@ -53,11 +57,11 @@ class TLClassifier(object):
         #TODO implement light color prediction
         
         # Prepare image
-        img = cv2.resize(image, (300, 300))
-        img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+        image = cv2.resize(image, (300, 300))
+        image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         
         # Input/output tensor for frozen graph
-        img_tensor = self.tl_model.get_tensor_by_name('image_tensor:0')
+        image_tensor = self.tl_model.get_tensor_by_name('image_tensor:0')
         
         
         model_scores = self.tl_model.get_tensor_by_name('detection_scores:0')
@@ -68,7 +72,7 @@ class TLClassifier(object):
         
         # Use the model to predict
         boxes, scores, classes = self.session.run([model_boxes, model_scores, model_classes],
-                                                  feed_dict = {img_tensor: np.expand_dims(image, axis = 0)})     
+                                                  feed_dict = {image_tensor: np.expand_dims(image, axis = 0)})     
         
         # Remove single-dimensional entries from the output arrays.
         boxes = np.squeeze(boxes)
@@ -78,9 +82,11 @@ class TLClassifier(object):
         for i, b in enumerate(boxes):
             if scores[i] > SCORE_THRESHOLD:
                 traffic_light_class = self.tl_colors[classes[i]]
+                rospy.loginfo("Traffic light was {}".format(traffic_light_class))
                 return traffic_light_class
             else:
-                rospy.loginfo("Traffic light UNKNOWN!")
+                #rospy.loginfo("Traffic light UNKNOWN!")
+                pass
         return TrafficLight.UNKNOWN
     
 
