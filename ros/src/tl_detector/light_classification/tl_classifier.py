@@ -68,7 +68,7 @@ class TLClassifier(object):
         
         # Use the model to predict
         boxes, scores, classes = self.session.run([model_boxes, model_scores, model_classes],
-                                                  feed_dict = {image_tensor: np.expand_dims(image, axis = 0)})     
+                                                  feed_dict = {img_tensor: np.expand_dims(image, axis = 0)})     
         
         # Remove single-dimensional entries from the output arrays.
         boxes = np.squeeze(boxes)
@@ -77,11 +77,11 @@ class TLClassifier(object):
         
         for i, b in enumerate(boxes):
             if scores[i] > SCORE_THRESHOLD:
-                traffic_light_class = self.categories[classes[i]]
+                traffic_light_class = self.tl_colors[classes[i]]
                 return traffic_light_class
             else:
                 rospy.loginfo("Traffic light UNKNOWN!")
-                return TrafficLight.UNKNOWN
+        return TrafficLight.UNKNOWN
     
 
         

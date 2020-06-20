@@ -61,7 +61,7 @@ class TLDetector(object):
 
     # Same function as in waypoint_updater.py
     def waypoints_cb(self, waypoints):
-        self.base_waypoints = waypoints
+        self.waypoints = waypoints
         if not self.waypoints_2D:
             # Extract 2D waypoints for use in KDTree (as described in Lesson 6: Project Programming a Real Self-Driving Car)
             self.waypoints_2D = [[waypoint.pose.pose.position.x , waypoint.pose.pose.position.y] for waypoint in waypoints.waypoints]
@@ -156,8 +156,8 @@ class TLDetector(object):
         len_wp = len(self.waypoints.waypoints)
         for i, l in enumerate(self.lights):
             tmp_car_idx = self.get_closest_waypoint(stop_line_positions[i][0], stop_line_positions[i][1])
-            diff_car_position = car_position_idx - tmp_car_idx
-            if diff_car_position_idx >=0 and diff_car_position < len_wp:
+            diff_car_position_idx = car_position_idx - tmp_car_idx
+            if diff_car_position_idx >=0 and diff_car_position_idx < len_wp:
                 len_wp = diff_car_position_idx
                 light = l
                 light_wp = tmp_car_idx

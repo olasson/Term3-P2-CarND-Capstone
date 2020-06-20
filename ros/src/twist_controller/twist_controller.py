@@ -3,6 +3,8 @@ from pid import PID
 from lowpass import LowPassFilter
 from yaw_controller import YawController
 
+import time
+
 # Constants
 GAS_DENSITY = 2.858
 ONE_MPH = 0.44704
@@ -10,9 +12,12 @@ ONE_MPH = 0.44704
 TAU = 0.5 # Cutoff frequency
 T_SAMPLE = 0.02 # Sample time
 
+MIN_SPEED = 0.1
+
 
 class Controller(object):
-    def __init__(self, vehicle_mass ,fuel_capacity ,brake_deadband ,decel_limit  ,accel_limit  ,wheel_radius ,wheel_base ,steer_ratio ,max_lat_accel ,max_steer_angle, min_speed):
+    def __init__(self, vehicle_mass, fuel_capacity, brake_deadband, decel_limit,
+                 accel_limit, wheel_radius, wheel_base, steer_ratio, max_lat_accel, max_steer_angle):
         """
         Lesson 8: DBW Walkthrough in Project: Programming a real Self-Driving Car was very useful here
         """
@@ -26,7 +31,12 @@ class Controller(object):
         self.brake_deadband = brake_deadband 
         self.decel_limit = decel_limit
         self.accel_limit = accel_limit
+
         self.wheel_radius = wheel_radius
+        self.wheel_base = wheel_base
+        self.steer_ratio = steer_ratio
+        self.max_lat_accel = max_lat_accel
+        self.max_steer_angle = max_steer_angle
         
         # PID
         Kp = 0.3 # Proportional gain
@@ -38,7 +48,7 @@ class Controller(object):
         
         # Init controllers
         self.throttle_controller = PID(Kp, Ki, Kd, min_throttle, max_throttle)
-        self.yaw_controller = YawController(wheel_base,steer_ratio ,max_lat_accel , max_steer_angle, min_speed)
+        self.yaw_controller = YawController(self.wheel_base, self.steer_ratio, MIN_SPEED, self.max_lat_accel, self.max_steer_angle)
         
         # Init lowpass filter
         self.velocity_lowpass = LowPassFilter(TAU, T_SAMPLE)
@@ -54,7 +64,7 @@ class Controller(object):
             self.throttle_controller.reset()
             return 0.0, 0.0, 0.0
         
-        current_vel = self.vel_lpf.filt(current_vel)    
+        current_vel = self.velocity_lowpass.filt(current_vel)    
         
         steering = self.yaw_controller.get_steering(linear_vel, angular_vel, current_vel)
         

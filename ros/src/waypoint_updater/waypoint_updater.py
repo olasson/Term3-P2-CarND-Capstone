@@ -26,8 +26,8 @@ TODO (for Yousuf and Aaron): Stopline location for each traffic light.
 
 
 # Constants
-LOOKAHEAD_WPS = 200 # Number of waypoints we will publish. You can change this number Original value: 200
-ROSPY_RATE = 50 #Rate for loop()
+LOOKAHEAD_WPS = 100 # Number of waypoints we will publish. You can change this number Original value: 200
+ROSPY_RATE = 30 #Rate for loop()
 MAX_WP_DECEL = 0.5
 
 class WaypointUpdater(object):
@@ -46,7 +46,7 @@ class WaypointUpdater(object):
         # TODO: Add other member variables you need below
         self.base_waypoints = None
         self.waypoints_2D = None
-        self.waypoints_tree = None
+        self.waypoint_tree = None
         
         self.pose = None
         
