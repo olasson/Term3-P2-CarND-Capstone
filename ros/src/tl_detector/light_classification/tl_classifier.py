@@ -5,6 +5,8 @@ import rospy, cv2, os, yaml
 import tensorflow as tf
 import numpy as np
 
+SCORE_THRESHOLD = 0.5
+
 class TLClassifier(object):
     def __init__(self):
         #TODO load classifier
@@ -53,19 +55,32 @@ class TLClassifier(object):
         img = cv2.resize(image, (300, 300))
         img = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         
+        # Input/output tensor for frozen graph
         img_tensor = self.tl_model.get_tensor_by_name('image_tensor:0')
         
-        # The scores represent how confident the model is
+        
         model_scores = self.tl_model.get_tensor_by_name('detection_scores:0')
-        
         model_boxes = self.tl_model.get_tensor_by_name('detection_boxes:0')
-        
         model_classes = self.tl_model.get_tensor_by_name('detection_classes:0')
         
         
+        
+        # Use the model to predict
         boxes, scores, classes = self.session.run([model_boxes, model_scores, model_classes],
-                                                  feed_dict = {image_tensor: np.expand_dims(image, axis = 0)})        
-        return TrafficLight.UNKNOWN
+                                                  feed_dict = {image_tensor: np.expand_dims(image, axis = 0)})     
+        
+        # Remove single-dimensional entries from the output arrays.
+        boxes = np.squeeze(boxes)
+        scores = np.squeeze(scores)
+        classes = np.squeeze(classes)
+        
+        for i, b in enumerate(boxes):
+            if scores[i] > SCORE_THRESHOLD:
+                traffic_light_class = self.categories[classes[i]]
+                return traffic_light_class
+            else:
+                rospy.loginfo("Traffic light UNKNOWN!)
+                return TrafficLight.UNKNOWN
     
 
         
