@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import rospy
 from pid import PID
 from lowpass import LowPassFilter
@@ -44,7 +46,7 @@ class Controller(object):
         Kd = 0.0 # Derivative gain
         
         min_throttle = 0.0
-        max_throttle = 0.0
+        max_throttle = 0.2
         
         # Init controllers
         self.throttle_controller = PID(Kp, Ki, Kd, min_throttle, max_throttle)
