@@ -101,16 +101,32 @@ This project strucutre is broken down into serveral parts outlined in more detai
 
 ### Waypoint Updater Node
 
+<p align="center">
+     <img src="./imgs/waypoint_updater.PNG" width="80%" height="80%">
+     <br>Courtesy of Udacity
+</p>
+
 The [Waypoint updater ](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/waypoint_updater/waypoint_updater.py) 
-updater 
+Node attempts to update the target velocity in accordance with the traffic light data. Obstacle detection can also be included here, but for this
+project I focused on traffic light detection only. A waypoint consists of coordinates on the track, which the car uses to plan its trajectory.
 
 ### Drive by Wire (DBW) Node
+
+<p align="center">
+     <img src="./imgs/dbw.PNG" width="80%" height="80%">
+     <br>Courtesy of Udacity
+</p>
 
 [Drive by Wire (DBW)](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/twist_controller/dbw_node.py)
 [Twist controller](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/twist_controller/twitst_controller.py)
 
 
 ### Traffic Light Detection Node 
+
+<p align="center">
+     <img src="./imgs/tl_detection.PNG" width="80%" height="80%">
+     <br>Courtesy of Udacity
+</p>
 
 [Traffic light classifier](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/tl_detector/light_classification/tl_classifier.py)
 [Traffic light detector](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/tl_detector/tl_detector.py)
