@@ -90,7 +90,7 @@ roslaunch launch/site.launch
 # System Overview
 
 The following diagram, taken from Lesson 4 (Project Overview) provides an overview of the ROS nodes used in this project,
-as well as their communication. 
+as well as the communication between them. 
 
 <p align="center">
      <img src="./imgs/system_overview.PNG" width="80%" height="80%">
@@ -101,14 +101,21 @@ This project strucutre is broken down into serveral parts outlined in more detai
 
 ### Waypoint Updater Node
 
+The [Waypoint updater ](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/waypoint_updater/waypoint_updater.py) 
+Node attempts to update the target velocity in accordance with the traffic light data. Obstacle detection can also be included here, but for this
+project I focused on traffic light detection only. A waypoint consists of coordinates on the track, which the car uses to plan its trajectory.
+
 <p align="center">
      <img src="./imgs/waypoint_updater.PNG" width="80%" height="80%">
      <br>Courtesy of Udacity
 </p>
 
-The [Waypoint updater ](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/waypoint_updater/waypoint_updater.py) 
-Node attempts to update the target velocity in accordance with the traffic light data. Obstacle detection can also be included here, but for this
-project I focused on traffic light detection only. A waypoint consists of coordinates on the track, which the car uses to plan its trajectory.
+This node has the following topics (ros buses) as inputs:
+* `/base_waypoints`: Contains all waypoints along the track. These are published to the car only once at program start. This node is also responsibe for decelerating the cars
+path when approaching a read light. 
+* `/obstacle_waypoint`: Contains the waypoint positions of obstacles. Not used in this project, since the simulator does not contain obstacles. 
+* `/traffic_waypoint`: Contains the waypoints where the car should stop when detecting traffic lights.
+* `/current_pose`:  
 
 ### Drive by Wire (DBW) Node
 
