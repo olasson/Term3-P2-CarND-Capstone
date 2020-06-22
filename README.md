@@ -3,7 +3,7 @@
 This is my final project submission for the Udacity Self-Driving Car Engineer Nanodegree. The project entails waypoint tracking, vehicle control and traffic light classification. 
 The code will be tested on a simulator, as well as on a real world car by Udacity. 
 
-I have worked on this project alone, due to practical reasons. 
+I have worked on this project alone, due to practical reasons. Please se the "System Overview" section at the bottom of this README for an overview of the project. 
 
 **Members:**
 Full Name | E-mail|Student 
@@ -86,3 +86,7 @@ cd CarND-Capstone/ros
 roslaunch launch/site.launch
 ```
 5. Confirm that traffic light detection works on real life images
+
+# System Overview
+
+test
