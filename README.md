@@ -135,7 +135,7 @@ This node has the following topics (ros buses) as inputs:
 * `/vehicle/dbw_enabled`: Contains a boolean value, indicating wether dbw is enabled or not. 
 
 The [Twist controller](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/twist_controller/twitst_controller.py)
-is a simple PID controller that sets the throttle based on a comparison between current throttle and target throttle. 
+is a controller that sets combines information from the other controllers and produces a final throttle, brake and steering. 
 
 The *Yaw Controller* converts the target linear and angular velocities into a steering angle. It also uses additional information about the car
 such as steering ratio etc. 
