@@ -89,7 +89,13 @@ roslaunch launch/site.launch
 
 # System Overview
 
+The following diagram, taken from Lesson 4 (Project Overview) provides an overview of the ROS nodes used in this project,
+as well as their communication. 
+
 <p align="center">
-     <img src="./imgs/system_overview.png" width="80%" height="80%">
+     <img src="./imgs/system_overview.PNG" width="80%" height="80%">
      <br>Courtesy of Udacity
 </p>
+
+This project is broken down into these main parts which have been modified by me, outlined in more detail in their respective sections:
+* [Waypoint updater](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/waypoint_updater/waypoint_updater.py)
