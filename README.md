@@ -97,5 +97,11 @@ as well as their communication.
      <br>Courtesy of Udacity
 </p>
 
-This project is broken down into these main parts which have been modified by me, outlined in more detail in their respective sections:
-* [Waypoint updater](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/waypoint_updater/waypoint_updater.py)
+This project strucutre is broken down into serveral parts outlined in more detail in their respective sections. 
+
+The following files have been directly modified by me: 
+* [Waypoint updater ](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/waypoint_updater/waypoint_updater.py)
+* [Drive by Wire (DBW)](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/twist_controller/dbw_node.py)
+* [Twist controller](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/twist_controller/twitst_controller.py)
+* [Traffic light classifier](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/tl_detector/light_classification/tl_classifier.py)
+* [Traffic light detector](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/tl_detector/tl_detector.py)
