@@ -164,7 +164,8 @@ This node consists of the [Traffic light classifier](https://github.com/olasson/
  Specifically, the model is contained in a file called "frozen_inference_graph.pb" file. It was trained using data from 
  [marcomarasca's github repo](https://github.com/marcomarasca/SDCND-Traffic-Light-Detection). I really appreciated the datasets (both sim and site data for the Udacity car)
  provided in marcomarasca's git hub repo, as it allowed me to focus on training the model and not annotating data. Additionally, it as marcomarasca who gave me the idea
- to use the "ssd_mobilenet_V2_coco" model as a strarting point. This repository was also very useful when training the model. 
+ to use the "ssd_mobilenet_V2_coco" model as a strarting point. This repository was also very useful when training the model. I used data from both the simulator and the real track in an attempt to make a generalized 
+"one-size-fits-all" model. 
  
  
 
