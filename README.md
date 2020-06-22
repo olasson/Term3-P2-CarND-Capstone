@@ -4,6 +4,7 @@ This is my final project submission for the Udacity Self-Driving Car Engineer Na
 The code will be tested on a simulator, as well as on a real world car by Udacity. 
 
 I have worked on this project alone, due to practical reasons. Please se the "System Overview" section at the bottom of this README for an overview of the project. 
+The focus of the System Overview is the parts of the code that I have modified.  
 
 **Members:**
 Full Name | E-mail|Student 
@@ -115,18 +116,32 @@ This node has the following topics (ros buses) as inputs:
 path when approaching a read light. 
 * `/obstacle_waypoint`: Contains the waypoint positions of obstacles. Not used in this project, since the simulator does not contain obstacles. 
 * `/traffic_waypoint`: Contains the waypoints where the car should stop when detecting traffic lights.
-* `/current_pose`:  
+* `/current_pose`: Contains the current position of the car. This informations comes from the simulator itself. 
 
 ### Drive by Wire (DBW) Node
+
+
+The [Drive by Wire (DBW)](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/twist_controller/dbw_node.py)
+Node is the basis for the cars control system. This node is responsible for controlling the throttle, braking and steering. 
 
 <p align="center">
      <img src="./imgs/dbw.PNG" width="80%" height="80%">
      <br>Courtesy of Udacity
 </p>
 
-[Drive by Wire (DBW)](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/twist_controller/dbw_node.py)
-[Twist controller](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/twist_controller/twitst_controller.py)
+This node has the following topics (ros buses) as inputs:
+* `/current_velocity`: Contains information from the simulator used to determine linear velocity. 
+* `/twist_cmd`: Contains the information from the simulator used to generate throttle, brake and steering outputs. 
+* `/vehicle/dbw_enabled`: Contains a boolean value, indicating wether dbw is enabled or not. 
 
+The [Twist controller](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/twist_controller/twitst_controller.py)
+is a simple PID controller that sets the throttle based on a comparison between current throttle and target throttle. 
+
+The *Yaw Controller* converts the target linear and angular velocities into a steering angle. It also uses additional information about the car
+such as steering ratio etc. 
+
+The *Brake Controller* determines how aggressively the car decelerates. It uses additional information about the car
+such as car mass and wheel radius etc. 
 
 ### Traffic Light Detection Node 
 
