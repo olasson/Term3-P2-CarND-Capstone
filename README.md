@@ -158,5 +158,13 @@ This node has the following topics (ros buses) as inputs:
 * `/current_pose`: Contains the current position of the car. This informations comes from the simulator itself. 
 
 This node consists of the [Traffic light classifier](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/tl_detector/light_classification/tl_classifier.py)
- and the [Traffic light detector](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/tl_detector/tl_detector.py).
+ and the [Traffic light detector](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/tl_detector/tl_detector.py). 
  
+ The model is based on the pre-trained model "ssd_mobilenet_V2_coco" from the [Tensorflow detection model zoo](https://github.com/tensorflow/models/blob/master/research/object_detection/g3doc/detection_model_zoo.md). 
+ Specifically, the model is contained in a file called "frozen_inference_graph.pb" file. It was trained using data from 
+ [marcomarasca's github repo](https://github.com/marcomarasca/SDCND-Traffic-Light-Detection). I really appreciated the datasets (both sim and site data for the Udacity car)
+ provided in marcomarasca's git hub repo, as it allowed me to focus on training the model and not annotating data. Additionally, it as marcomarasca who gave me the idea
+ to use the "ssd_mobilenet_V2_coco" model as a strarting point. This repository was also very useful when training the model. 
+ 
+ 
+
