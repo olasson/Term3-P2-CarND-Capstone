@@ -90,6 +90,6 @@ roslaunch launch/site.launch
 # System Overview
 
 <p align="center">
-     <img src="./imgs/autoware_tf1.png" width="80%" height="80%">
-     <br>test
+     <img src="./imgs/system_overview.png" width="80%" height="80%">
+     <br>Courtesy of Udacity
 </p>
