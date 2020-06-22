@@ -1,8 +1,5 @@
 # CarND-Capstone-Project
 
-[//]: # (Images)
-[image1]: ./imags/autoware_tf1.png
-
 This is my final project submission for the Udacity Self-Driving Car Engineer Nanodegree. The project entails waypoint tracking, vehicle control and traffic light classification. 
 The code will be tested on a simulator, as well as on a real world car by Udacity. 
 
@@ -93,6 +90,6 @@ roslaunch launch/site.launch
 # System Overview
 
 <p align="center">
-     <img src="./images/autoware_tf1.png" width="80%" height="80%">
+     <img src="./imgs/autoware_tf1.png" width="80%" height="80%">
      <br>test
 </p>
