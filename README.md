@@ -104,7 +104,8 @@ This project strucutre is broken down into serveral parts outlined in more detai
 
 The [Waypoint updater ](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/waypoint_updater/waypoint_updater.py) 
 Node attempts to update the target velocity in accordance with the traffic light data. Obstacle detection can also be included here, but for this
-project I focused on traffic light detection only. A waypoint consists of coordinates on the track, which the car uses to plan its trajectory.
+project I focused on traffic light detection only. A waypoint consists of coordinates on the track, which the car uses to plan its trajectory. This node is also responsibe for decelerating the cars
+path when approaching a read light. 
 
 <p align="center">
      <img src="./imgs/waypoint_updater.PNG" width="80%" height="80%">
@@ -112,8 +113,7 @@ project I focused on traffic light detection only. A waypoint consists of coordi
 </p>
 
 This node has the following topics (ros buses) as inputs:
-* `/base_waypoints`: Contains all waypoints along the track. These are published to the car only once at program start. This node is also responsibe for decelerating the cars
-path when approaching a read light. 
+* `/base_waypoints`: Contains all waypoints along the track. These are published to the car only once at program start. 
 * `/obstacle_waypoint`: Contains the waypoint positions of obstacles. Not used in this project, since the simulator does not contain obstacles. 
 * `/traffic_waypoint`: Contains the waypoints where the car should stop when detecting traffic lights.
 * `/current_pose`: Contains the current position of the car. This informations comes from the simulator itself. 
@@ -145,10 +145,18 @@ such as car mass and wheel radius etc.
 
 ### Traffic Light Detection Node 
 
+The traffic light detection node is responsible for detecting stop and star conditions with respect to traffic lights. 
+
 <p align="center">
      <img src="./imgs/tl_detection.PNG" width="80%" height="80%">
      <br>Courtesy of Udacity
 </p>
 
-[Traffic light classifier](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/tl_detector/light_classification/tl_classifier.py)
-[Traffic light detector](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/tl_detector/tl_detector.py)
+This node has the following topics (ros buses) as inputs:
+* `/base_waypoints`: Contains all waypoints along the track. These are published to the car only once at program start. 
+* `/image_color`: Contains an image stream captured by the cars front camera. 
+* `/current_pose`: Contains the current position of the car. This informations comes from the simulator itself. 
+
+This node consists of the [Traffic light classifier](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/tl_detector/light_classification/tl_classifier.py)
+ and the [Traffic light detector](https://github.com/olasson/Term3-P2-CarND-Capstone/tree/master/ros/src/tl_detector/tl_detector.py).
+ 
